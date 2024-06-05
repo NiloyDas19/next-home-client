@@ -1,7 +1,31 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import logo from "../../../assets/logo.png"
+import useAuth from "../../../hooks/useAuth";
+import swal from "sweetalert";
 
 const NavBar = () => {
+    const { user, logOut } = useAuth();
+    const navigate = useNavigate();
+
+    const handleLogOut = () => {
+        logOut()
+        .then(() => {
+            swal({
+                icon: "success",
+                title: "Logout Successful!",
+                showConfirmButton: false,
+                timer: 1500
+            });
+            navigate('/');
+        })
+        .catch(error => {
+            swal({
+                icon: "error",
+                title: "Oops...",
+                text: error.message,
+            });
+        })
+    }
 
     const navLinks = <>
         <li><NavLink to="/">Home</NavLink></li>
@@ -9,9 +33,22 @@ const NavBar = () => {
             <NavLink to="/allProperties">All Properties</NavLink>
         </li>
         <li><NavLink to="dashboard">Dashboard</NavLink></li>
-        <li><NavLink to="/login" className="btn btn-primary w-24 bg-orange-500 text-white font-bold">Login</NavLink></li>
+        {
+            user ?
+                <>
+                    <li className="flex flex-col lg:flex-row lg:gap-2 justify-center lg:items-center">
+                        <li>{user.displayName}</li>
+                        <button onClick={handleLogOut} className="btn btn-primary w-24 bg-orange-500 text-white font-bold">Logout</button>
+                    </li>
+
+                </>
+                :
+                <>
+                    <li><NavLink to="/login" className="btn btn-primary w-24 bg-orange-500 text-white font-bold">Login</NavLink></li>
+                </>
+        }
     </>
-    
+
     return (
         <div className="navbar bg-base-100">
             <div className="navbar-start">

@@ -1,10 +1,66 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import bgimage from "../../assets/login.png";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useState } from "react";
+import useAuth from "../../hooks/useAuth";
+import swal from "sweetalert";
 
 const Login = () => {
     const [showPassword, setShowPassword] = useState(false);
+    const {signIn, googleSignIn, setLoading} = useAuth();
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    const handleLogin  = (e) => {
+        e.preventDefault();
+
+        const email = e.target.email.value;
+        const password = e.target.password.value;
+
+        signIn(email, password)
+        .then((result) => {
+            console.log(result);
+            swal({
+                icon: "success",
+                title: "Login Successful!",
+                showConfirmButton: false,
+                timer: 1500
+            });
+            navigate(location?.state ? location?.state : "/");
+        })
+        .catch((error) => {
+            swal({
+                icon: "error",
+                title: "Oops...",
+                text: error.message,
+            });
+            setLoading(false);
+        })
+    }
+
+    const handleGoogle = () => {
+        googleSignIn()
+        .then(result => {
+            console.log(result.user);
+            swal({
+                icon: "success",
+                title: "Login Successful!",
+                showConfirmButton: false,
+                timer: 1500
+            });
+            navigate(location?.state ? location?.state : "/");
+        })
+        .catch(error => {
+            swal({
+                icon: "error",
+                title: "Oops...",
+                text: error.message,
+            });
+            setLoading(false);
+            console.log(error.message);
+        })
+    }
+
     
     return (
         <div className="min-h-screen justify-center py-12 sm:px-6 lg:px-8">
@@ -18,7 +74,7 @@ const Login = () => {
                 <div className="flex-1">
                     <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md shadow-2xl">
                         <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-                            <form className="space-y-6">
+                            <form className="space-y-6" onSubmit={handleLogin}>
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700">
                                         Email address
@@ -78,6 +134,7 @@ const Login = () => {
 
                                 <div className="mt-6 grid grid-cols-1 gap-3">
                                     <button
+                                        onClick={handleGoogle}
                                         type="button"
                                         className="w-full flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                                     >
