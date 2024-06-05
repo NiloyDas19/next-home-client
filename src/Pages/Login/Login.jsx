@@ -4,64 +4,80 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useState } from "react";
 import useAuth from "../../hooks/useAuth";
 import swal from "sweetalert";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
 
 const Login = () => {
     const [showPassword, setShowPassword] = useState(false);
-    const {signIn, googleSignIn, setLoading} = useAuth();
+    const { signIn, googleSignIn, setLoading, updateUserProfile } = useAuth();
     const navigate = useNavigate();
     const location = useLocation();
+    const axiosPublic = useAxiosPublic();
 
-    const handleLogin  = (e) => {
+    const handleLogin = (e) => {
         e.preventDefault();
 
         const email = e.target.email.value;
         const password = e.target.password.value;
 
         signIn(email, password)
-        .then((result) => {
-            console.log(result);
-            swal({
-                icon: "success",
-                title: "Login Successful!",
-                showConfirmButton: false,
-                timer: 1500
-            });
-            navigate(location?.state ? location?.state : "/");
-        })
-        .catch((error) => {
-            swal({
-                icon: "error",
-                title: "Oops...",
-                text: error.message,
-            });
-            setLoading(false);
-        })
+            .then((result) => {
+                console.log(result);
+                swal({
+                    icon: "success",
+                    title: "Login Successful!",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                navigate(location?.state ? location?.state : "/");
+            })
+            .catch((error) => {
+                swal({
+                    icon: "error",
+                    title: "Oops...",
+                    text: error.message,
+                });
+                setLoading(false);
+            })
     }
 
     const handleGoogle = () => {
         googleSignIn()
-        .then(result => {
-            console.log(result.user);
-            swal({
-                icon: "success",
-                title: "Login Successful!",
-                showConfirmButton: false,
-                timer: 1500
-            });
-            navigate(location?.state ? location?.state : "/");
-        })
-        .catch(error => {
-            swal({
-                icon: "error",
-                title: "Oops...",
-                text: error.message,
-            });
-            setLoading(false);
-            console.log(error.message);
-        })
+            .then(result => {
+                console.log(result.user);
+                updateUserProfile(result.user.displayName, result.user.photoURL)
+                    .then(() => {
+                        const userInfo = {
+                            name: result.user.displayName,
+                            email: result.user.email,
+                            photoUrl: result.user.photoURL
+                        }
+                        axiosPublic.post('/users', userInfo)
+                            .then(res => {
+                                console.log(res);
+                                swal({
+                                    icon: "success",
+                                    title: "Registration Successful!",
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                });
+                            })
+                        navigate(location?.state ? location?.state : "/");
+                    }).catch((error) => {
+                        console.log(error.message);
+                    });
+            })
+            .catch(error => {
+                swal({
+                    icon: "error",
+                    title: "Oops...",
+                    text: error.message,
+                });
+                setLoading(false);
+                console.log(error.message);
+            })
     }
 
-    
+
     return (
         <div className="min-h-screen justify-center py-12 sm:px-6 lg:px-8">
             <div className="sm:mx-auto sm:w-full sm:max-w-md">
@@ -138,7 +154,7 @@ const Login = () => {
                                         type="button"
                                         className="w-full flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                                     >
-                                       Login With Google
+                                        Login With Google
                                     </button>
                                 </div>
                                 <div className="text-center p-5">

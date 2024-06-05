@@ -4,12 +4,14 @@ import { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import swal from "sweetalert";
 import useAuth from "../../hooks/useAuth";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
 
 const SignUp = () => {
     const [showPassword, setShowPassword] = useState(false);
-    const {createUser, updateUserProfile, googleSignIn, setLoading} = useAuth();
-    const navigate  = useNavigate();
+    const { createUser, updateUserProfile, googleSignIn, setLoading } = useAuth();
+    const navigate = useNavigate();
     const location = useLocation();
+    const axiosPublic = useAxiosPublic();
 
     const handleRegister = (e) => {
         e.preventDefault();
@@ -34,24 +36,30 @@ const SignUp = () => {
                 console.log("registration Successful", result.user);
                 // notify();
                 updateUserProfile(name, photoUrl)
-                .then(() => {
-                    // Profile updated!
-                    // ...
-                }).catch((error) => {
-                    // An error occurred
-                    // ...
-                    console.log(error.message);
-                });
-                result.user.displayName = name;
-                result.user.photoURL = photoUrl;
-                swal({
-                    icon: "success",
-                    title: "Registration Successful!",
-                    showConfirmButton: false,
-                    timer: 1500
-                });
-                navigate(location?.state ? location?.state : "/");
-                e.target.reset();
+                    .then(() => {
+                        const userInfo = {
+                            name,
+                            email,
+                            photoUrl,
+                        }
+                        axiosPublic.post('/users', userInfo)
+                            .then(res => {
+                                if (res.data.insertedId) {
+                                    swal({
+                                        icon: "success",
+                                        title: "Registration Successful!",
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    });
+                                }
+                            })
+                        navigate(location?.state ? location?.state : "/");
+                        e.target.reset();
+
+                    }).catch((error) => {
+
+                        console.log(error.message);
+                    });
             })
             .catch(error => {
                 swal({
@@ -67,25 +75,41 @@ const SignUp = () => {
 
     const handleGoogle = () => {
         googleSignIn()
-        .then(result => {
-            console.log(result.user);
-            swal({
-                icon: "success",
-                title: "Registration Successful!",
-                showConfirmButton: false,
-                timer: 1500
-            });
-            navigate(location?.state ? location?.state : "/");
-        })
-        .catch(error => {
-            swal({
-                icon: "error",
-                title: "Oops...",
-                text: error.message,
-            });
-            setLoading(false);
-            console.log(error.message);
-        })
+            .then(result => {
+                console.log(result.user);
+                updateUserProfile(result.user.displayName, result.user.photoURL)
+                    .then(() => {
+                        const userInfo = {
+                            name : result.user.displayName,
+                            email : result.user.email,
+                            photoUrl : result.user.photoURL
+                        }
+                        axiosPublic.post('/users', userInfo)
+                            .then(res => {
+                                if (res.data.insertedId) {
+                                    swal({
+                                        icon: "success",
+                                        title: "Registration Successful!",
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    });
+                                }
+                            })
+                        navigate(location?.state ? location?.state : "/");
+
+                    }).catch((error) => {
+                        console.log(error.message);
+                    });
+            })
+            .catch(error => {
+                swal({
+                    icon: "error",
+                    title: "Oops...",
+                    text: error.message,
+                });
+                setLoading(false);
+                console.log(error.message);
+            })
     }
 
 
