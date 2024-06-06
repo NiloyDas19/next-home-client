@@ -4,7 +4,7 @@ import useAuth from "../../../hooks/useAuth";
 import swal from "sweetalert";
 
 const NavBar = () => {
-    const { user, logOut } = useAuth();
+    const { user, logOut} = useAuth();
     const navigate = useNavigate();
 
     const handleLogOut = () => {
