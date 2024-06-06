@@ -17,8 +17,8 @@ const Dashboard = () => {
             <NavBar></NavBar>
             <div id="dashboard" className="flex gap-5 flex-col md:flex-row">
                 {/* Dashboard Sidebar */}
-                <div className="w-64 min-h-screen">
-                    <ul className="menu w-full p-2 space-y-2 flex md:flex-col flex-row gap-2">
+                <div className="md:w-64 min-h-screen w-[80%] mx-auto ">
+                    <ul className="menu w-full p-2 space-y-2">
                         {
                             isAdmin ?
                                 <>
