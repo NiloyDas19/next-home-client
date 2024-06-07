@@ -9,7 +9,6 @@ import '../Pages/Shared/NavBar/NavBar.css'
 import { useEffect, useState } from "react";
 import useAxiosPublic from './../hooks/useAxiosPublic';
 import useAuth from "../hooks/useAuth";
-import { FaPerson } from "react-icons/fa6";
 import { IoAddCircle, IoPersonCircle } from "react-icons/io5";
 import { MdSell } from "react-icons/md";
 
