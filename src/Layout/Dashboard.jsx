@@ -1,4 +1,4 @@
-import { FaHome } from "react-icons/fa";
+import { FaHome, FaLocationArrow } from "react-icons/fa";
 import { NavLink, Outlet } from "react-router-dom";
 import { ImSpoonKnife } from "react-icons/im";
 import { HiOutlineClipboardDocumentList } from "react-icons/hi2";
@@ -9,6 +9,9 @@ import '../Pages/Shared/NavBar/NavBar.css'
 import { useEffect, useState } from "react";
 import useAxiosPublic from './../hooks/useAxiosPublic';
 import useAuth from "../hooks/useAuth";
+import { FaPerson } from "react-icons/fa6";
+import { IoAddCircle, IoPersonCircle } from "react-icons/io5";
+import { MdSell } from "react-icons/md";
 
 const Dashboard = () => {
 
@@ -83,7 +86,7 @@ const Dashboard = () => {
                                                         className="border-2 border-orange-500 rounded-2xl hover:bg-orange-500 hover:text-white w-full"
                                                     >
                                                         <FaHome />
-                                                        My Profile
+                                                        Admin Profile
                                                     </NavLink>
                                                 </li>
                                                 <li>
@@ -121,8 +124,8 @@ const Dashboard = () => {
                                                         to="/dashboard/myProfile"
                                                         className="border-2 border-orange-500 rounded-2xl hover:bg-orange-500 hover:text-white w-full"
                                                     >
-                                                        <FaHome />
-                                                        My Profile
+                                                        <IoPersonCircle />
+                                                        Agent Profile
                                                     </NavLink>
                                                 </li>
                                                 <li>
@@ -130,7 +133,7 @@ const Dashboard = () => {
                                                         to="/dashboard/addProperty"
                                                         className="border-2 border-orange-500 rounded-2xl hover:bg-orange-500 hover:text-white w-full"
                                                     >
-                                                        <FaHome />
+                                                        <IoAddCircle />
                                                         Add Property
                                                     </NavLink>
                                                 </li>
@@ -148,7 +151,7 @@ const Dashboard = () => {
                                                         to="/dashboard/mySoldProperties"
                                                         className="border-2 border-orange-500 rounded-2xl hover:bg-orange-500 hover:text-white w-full"
                                                     >
-                                                        <FaHome />
+                                                        <MdSell/>
                                                         My sold properties
                                                     </NavLink>
                                                 </li>
@@ -157,7 +160,7 @@ const Dashboard = () => {
                                                         to="/dashboard/requestedProperties"
                                                         className="border-2 border-orange-500 rounded-2xl hover:bg-orange-500 hover:text-white w-full"
                                                     >
-                                                        <FaHome />
+                                                        <FaLocationArrow />
                                                         Requested properties
                                                     </NavLink>
                                                 </li>
