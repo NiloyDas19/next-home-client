@@ -1,4 +1,4 @@
-import { NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import logo from "../../../assets/logo.png"
 import useAuth from "../../../hooks/useAuth";
 import swal from "sweetalert";
@@ -45,7 +45,7 @@ const NavBar = () => {
                 </>
                 :
                 <>
-                    <li><button to="/login" className="btn btn-primary w-24 bg-orange-500 text-white font-bold">Login</button></li>
+                    <li><Link to="/login" className="btn btn-primary w-24 bg-orange-500 text-white font-bold">Login</Link></li>
                 </>
         }
     </>

@@ -6,11 +6,28 @@ import { RiFileListFill } from "react-icons/ri";
 import NavBar from "../Pages/Shared/NavBar/NavBar";
 import Footer from "../Pages/Shared/Footer/Footer";
 import '../Pages/Shared/NavBar/NavBar.css'
+import { useEffect, useState } from "react";
+import useAxiosPublic from './../hooks/useAxiosPublic';
+import useAuth from "../hooks/useAuth";
 
 const Dashboard = () => {
 
     // TODO : get isAdmin value from database
-    const isAdmin = true;
+    const [userRole, setUserRole] = useState(null);
+    const axiosPublic = useAxiosPublic();
+    const { user } = useAuth();
+
+    useEffect(() => {
+        axiosPublic.get(`/users/${user.email}`)
+            .then(res => {
+                console.log(res);
+                setUserRole(res.data.role);
+            })
+            .catch(error => {
+                console.log(error.message);
+            })
+    }, [])
+
 
     return (
         <div>
@@ -20,7 +37,7 @@ const Dashboard = () => {
                 <div className="md:w-64 min-h-screen w-[80%] mx-auto ">
                     <ul className="menu w-full p-2 space-y-2">
                         {
-                            isAdmin ?
+                            userRole === "user" ?
                                 <>
                                     <li>
                                         <NavLink
@@ -57,7 +74,95 @@ const Dashboard = () => {
                                 </>
                                 :
                                 <>
-
+                                    {
+                                        userRole === "admin" ?
+                                            <>
+                                                <li>
+                                                    <NavLink
+                                                        to="/dashboard/myProfile"
+                                                        className="border-2 border-orange-500 rounded-2xl hover:bg-orange-500 hover:text-white w-full"
+                                                    >
+                                                        <FaHome />
+                                                        My Profile
+                                                    </NavLink>
+                                                </li>
+                                                <li>
+                                                    <NavLink
+                                                        to="/dashboard/manageProperties"
+                                                        className="border-2 border-orange-500 rounded-2xl hover:bg-orange-500 hover:text-white w-full"
+                                                    >
+                                                        <FaHome />
+                                                        Manage Properties
+                                                    </NavLink>
+                                                </li>
+                                                <li>
+                                                    <NavLink
+                                                        to="/dashboard/manageUsers"
+                                                        className="border-2 border-orange-500 rounded-2xl hover:bg-orange-500 hover:text-white w-full"
+                                                    >
+                                                        <FaHome />
+                                                        Manage Users
+                                                    </NavLink>
+                                                </li>
+                                                <li>
+                                                    <NavLink
+                                                        to="/dashboard/manageReviews"
+                                                        className="border-2 border-orange-500 rounded-2xl hover:bg-orange-500 hover:text-white w-full"
+                                                    >
+                                                        <FaHome />
+                                                        Manage Reviews
+                                                    </NavLink>
+                                                </li>
+                                            </>
+                                            :
+                                            <>
+                                                <li>
+                                                    <NavLink
+                                                        to="/dashboard/myProfile"
+                                                        className="border-2 border-orange-500 rounded-2xl hover:bg-orange-500 hover:text-white w-full"
+                                                    >
+                                                        <FaHome />
+                                                        My Profile
+                                                    </NavLink>
+                                                </li>
+                                                <li>
+                                                    <NavLink
+                                                        to="/dashboard/addProperty"
+                                                        className="border-2 border-orange-500 rounded-2xl hover:bg-orange-500 hover:text-white w-full"
+                                                    >
+                                                        <FaHome />
+                                                        Add Property
+                                                    </NavLink>
+                                                </li>
+                                                <li>
+                                                    <NavLink
+                                                        to="/dashboard/myAddedProperties"
+                                                        className="border-2 border-orange-500 rounded-2xl hover:bg-orange-500 hover:text-white w-full"
+                                                    >
+                                                        <FaHome />
+                                                        My added properties
+                                                    </NavLink>
+                                                </li>
+                                                <li>
+                                                    <NavLink
+                                                        to="/dashboard/mySoldProperties"
+                                                        className="border-2 border-orange-500 rounded-2xl hover:bg-orange-500 hover:text-white w-full"
+                                                    >
+                                                        <FaHome />
+                                                        My sold properties
+                                                    </NavLink>
+                                                </li>
+                                                <li>
+                                                    <NavLink
+                                                        to="/dashboard/requestedProperties"
+                                                        className="border-2 border-orange-500 rounded-2xl hover:bg-orange-500 hover:text-white w-full"
+                                                    >
+                                                        <FaHome />
+                                                        Requested properties
+                                                    </NavLink>
+                                                </li>
+                                            </>
+                                    }
                                 </>
                         }
 

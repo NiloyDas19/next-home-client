@@ -10,6 +10,13 @@ import PropertyBought from "../Pages/Dashboard/PropertyBought/PropertyBought";
 import WishList from "../Pages/Dashboard/WishList/WishList";
 import MyReviews from "../Pages/Dashboard/MyReviews/MyReviews";
 import AllProperties from "../Pages/AllProperties/AllProperties";
+import ManageProperties from "../Pages/Dashboard/ManageProperties/ManageProperties";
+import ManageUsers from "../Pages/Dashboard/ManageUsers/ManageUsers";
+import ManageReviews from "../Pages/Dashboard/ManageReviews/ManageReviews";
+import AddProperty from "../Pages/Dashboard/AddProperty/AddProperty";
+import MyAddedProperties from "../Pages/Dashboard/MyAddedProperties/MyAddedProperties";
+import MySoldProperties from "../Pages/Dashboard/MySoldProperties/MySoldProperties";
+import RequestedProperties from "../Pages/Dashboard/RequestedProperties/RequestedProperties";
 
 
 export const router = createBrowserRouter([
@@ -54,6 +61,34 @@ export const router = createBrowserRouter([
             {
                 path: 'myReviews',
                 element: <MyReviews></MyReviews>
+            },
+            {
+                path:'manageProperties',
+                element: <ManageProperties></ManageProperties>
+            },
+            {
+                path: 'manageUsers',
+                element: <ManageUsers></ManageUsers>
+            },
+            {
+                path: 'manageReviews',
+                element: <ManageReviews></ManageReviews>
+            },
+            {
+                path: 'addProperty',
+                element: <AddProperty></AddProperty>
+            },
+            {
+                path: 'myAddedProperties',
+                element: <MyAddedProperties></MyAddedProperties>
+            },
+            {
+                path: 'mySoldProperties',
+                element: <MySoldProperties></MySoldProperties>
+            },
+            {
+                path: 'requestedProperties',
+                element: <RequestedProperties></RequestedProperties>
             }
         ]
     }
