@@ -1,22 +1,48 @@
-import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import useAuth from '../../../hooks/useAuth';
 import useAxiosPublic from '../../../hooks/useAxiosPublic';
+import swal from 'sweetalert';
+import { useQuery } from '@tanstack/react-query';
 
 const MyAddedProperties = () => {
-    const [properties, setProperties] = useState([]);
     const { user } = useAuth();
     const axiosPublic = useAxiosPublic();
 
-    useEffect(() => {
-        // Fetch the properties added by the agent from the server
-        axiosPublic.get(`/properties/${user.email}`)
-            .then(res => setProperties(res.data))
-            .catch(error => console.error(error));
-    }, [user.email]);
+    const { data: properties = [], refetch } = useQuery({
+        queryKey: ['properties'],
+        queryFn: async () => {
+            const res = await axiosPublic.get(`/properties/${user.email}`);
+            return res.data;
+        }
+    })
 
-    const handleDelete = (propertyId) => {
 
+    const handleDelete = (id) => {
+        swal({
+            title: "Are you sure?",
+            text: "Once deleted, you will not be able to recover this property!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+            .then((willDelete) => {
+                if (willDelete) {
+                    axiosPublic.delete(`/properties/${id}`)
+                        .then(res => {
+                            if (res.data.deletedCount > 0) {
+                                swal("Property deleted successfully", {
+                                    icon: "success",
+                                });
+                                refetch();
+                            }
+                            else {
+                                swal("Your Property is safe!");
+                            }
+                        })
+                } else {
+                    swal("Your Property is safe!");
+                }
+            });
     };
 
     return (
@@ -38,7 +64,7 @@ const MyAddedProperties = () => {
                                 <p className="text-gray-700 mb-2">Price Range: ${property.minPrice}-${property.maxPrice}</p>
                                 <div className="flex space-x-2">
                                     {property.verificationStatus !== 'rejected' && (
-                                        <Link to={`/update-property/${property._id}`} className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
+                                        <Link to={`/dashboard/updateProperty/${property._id}`} className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
                                             Update
                                         </Link>
                                     )}
