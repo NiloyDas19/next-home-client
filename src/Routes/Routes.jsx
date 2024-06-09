@@ -19,6 +19,7 @@ import MySoldProperties from "../Pages/Dashboard/MySoldProperties/MySoldProperti
 import RequestedProperties from "../Pages/Dashboard/RequestedProperties/RequestedProperties";
 import UpdateProperty from "../Pages/Dashboard/UpdateProperty/UpdateProperty";
 import AdvertiseProperty from "../Pages/Dashboard/AdvertiseProperty/AdvertiseProperty";
+import PropertyDetails from "../Pages/PropertyDetails/PropertyDetails";
 
 
 export const router = createBrowserRouter([
@@ -41,6 +42,10 @@ export const router = createBrowserRouter([
             {
                 path: "/allProperties",
                 element: <AllProperties></AllProperties>
+            },
+            {
+                path: '/propertyDetails/:id',
+                element: <PrivateRoute><PropertyDetails></PropertyDetails></PrivateRoute>
             }
         ]
     },
