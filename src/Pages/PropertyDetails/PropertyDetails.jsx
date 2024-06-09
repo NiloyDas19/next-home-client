@@ -21,7 +21,7 @@ const PropertyDetails = () => {
         }
     })
 
-    const { data: thisPropertyReview = [] } = useQuery({
+    const { data: thisPropertyReview = [], refetch:reviewRefetch } = useQuery({
         queryKey: ['thisPropertyReview'],
         queryFn: async () => {
             const res = await axiosPublic.get(`/reviews/${id}`);
@@ -89,11 +89,12 @@ const PropertyDetails = () => {
                     timer: 1500
                 });
                 setShowModal(false);
+                reviewRefetch();
             })
             .catch(error => {
                 console.error('Error adding review:', error);
             });
-        refetch();
+        
     };
 
 

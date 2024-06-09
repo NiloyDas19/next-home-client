@@ -1,46 +1,62 @@
-import  { useState} from 'react';
+import { useState } from 'react';
+import useAxiosPublic from '../../../hooks/useAxiosPublic';
+import useAuth from '../../../hooks/useAuth';
+import { useQuery } from '@tanstack/react-query';
+import swal from 'sweetalert';
 
 const RequestedProperties = () => {
-    const [offeredProperties, setOfferedProperties] = useState([]);
+    const axiosPublic = useAxiosPublic();
+    const [loading, setLoading] = useState(null);
+    const { user } = useAuth()
 
-    // useEffect(() => {
-    //     // Fetch offered properties for the current agent
-    //     axios.get('/api/offered-properties') // Replace with your API endpoint
-    //         .then(response => {
-    //             setOfferedProperties(response.data);
-    //         })
-    //         .catch(error => {
-    //             console.error('Error fetching offered properties:', error);
-    //         });
-    // }, []);
 
-    // const handleAccept = (propertyId) => {
-    //     // Handle accept logic
-    //     axios.post(`/api/accept-offer/${propertyId}`)
-    //         .then(response => {
-    //             // Update state to reflect accepted offer
-    //             setOfferedProperties(offeredProperties.map(property => 
-    //                 property.id === propertyId ? { ...property, status: 'accepted' } : property
-    //             ));
-    //         })
-    //         .catch(error => {
-    //             console.error('Error accepting offer:', error);
-    //         });
-    // };
+    const { data: agentOfferList = [], refetch } = useQuery({
+        queryKey: ['agentOfferList'],
+        queryFn: async () => {
+            const res = await axiosPublic.get(`/agentOfferList/${user.email}`);
+            setLoading(res.data);
+            return res.data;
+        }
+    })
 
-    // const handleReject = (propertyId) => {
-    //     // Handle reject logic
-    //     axios.post(`/api/reject-offer/${propertyId}`)
-    //         .then(response => {
-    //             // Update state to reflect rejected offer
-    //             setOfferedProperties(offeredProperties.map(property => 
-    //                 property.id === propertyId ? { ...property, status: 'rejected' } : property
-    //             ));
-    //         })
-    //         .catch(error => {
-    //             console.error('Error rejecting offer:', error);
-    //         });
-    // };
+    if (!loading) {
+        refetch();
+        return <div className="flex justify-center items-center h-screen">
+            <h1 className="text-4xl font-bold text-red-500">Loading...</h1>
+        </div>
+    }
+
+    const handleAccept = async (id, propertyId) => {
+        // Handle accept logic
+        const reject = {
+            status: 'rejected',
+        }
+        const resReject = await axiosPublic.put(`/rejectOffer/${propertyId}`, reject);
+        console.log(resReject);
+        const resAccept = await axiosPublic.put(`/acceptOffer/${id}`, { status: 'accepted' })
+        console.log(resAccept);
+        if (resAccept.data.modifiedCount) {
+            swal({
+                title: 'Accept',
+                text: 'Offer Accepted',
+                icon: 'success'
+            });
+            refetch();
+        }
+    };
+
+    const handleReject = async (id) => {
+        const resReject = await axiosPublic.put(`/rejectOneOffer/${id}`, { status: 'rejected' });
+        console.log(resReject);
+        if (resReject.data.modifiedCount) {
+            swal({
+                title: 'Reject',
+                text: 'Offer Rejected',
+                icon: 'success'
+            });
+            refetch();
+        }
+    };
 
     return (
         <div className="w-[95%] mx-auto mt-10">
@@ -58,24 +74,24 @@ const RequestedProperties = () => {
                         </tr>
                     </thead>
                     <tbody className="text-gray-600 text-sm font-light">
-                        {offeredProperties.map(property => (
+                        {agentOfferList.map(property => (
                             <tr key={property.id} className="border-b border-gray-200 hover:bg-gray-100">
                                 <td className="py-3 px-6 text-left">{property.propertyTitle}</td>
                                 <td className="py-3 px-6 text-left">{property.propertyLocation}</td>
                                 <td className="py-3 px-6 text-left">{property.buyerEmail}</td>
                                 <td className="py-3 px-6 text-left">{property.buyerName}</td>
-                                <td className="py-3 px-6 text-left">{property.offeredPrice}</td>
+                                <td className="py-3 px-6 text-left">${property.offeredAmount}</td>
                                 <td className="py-3 px-6 text-center">
                                     {property.status === 'pending' ? (
                                         <>
                                             <button
-                                                onClick={() => handleAccept(property.id)}
+                                                onClick={() => handleAccept(property._id, property.propertyId)}
                                                 className="bg-green-500 text-white px-3 py-1 rounded mr-2"
                                             >
                                                 Accept
                                             </button>
                                             <button
-                                                onClick={() => handleReject(property.id)}
+                                                onClick={() => handleReject(property._id)}
                                                 className="bg-red-500 text-white px-3 py-1 rounded"
                                             >
                                                 Reject
