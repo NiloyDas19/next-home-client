@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import useAuth from './../../../hooks/useAuth';
 import useAxiosPublic from './../../../hooks/useAxiosPublic';
 import swal from 'sweetalert';
@@ -7,6 +7,7 @@ const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
 
 const AddProperty = () => {
+    const [userRole, setUserRole] = useState(null);
     const [propertyTitle, setPropertyTitle] = useState('');
     const [propertyLocation, setPropertyLocation] = useState('');
     const [propertyImage, setPropertyImage] = useState(null);
@@ -15,6 +16,30 @@ const AddProperty = () => {
     const { user } = useAuth();
     const axiosPublic = useAxiosPublic();
     const verificationStatus = "pending";
+
+
+    useEffect(() => {
+        axiosPublic.get(`/users/${user.email}`)
+            .then(res => {
+                console.log(res);
+                setUserRole(res.data.role);
+            })
+            .catch(error => {
+                console.log(error.message);
+            })
+    }, [])
+
+    if(!userRole){
+        return <div className="flex justify-center items-center h-screen">
+            <h1 className="text-4xl font-bold text-red-500">Loading...</h1>
+        </div>
+    }
+
+    if(userRole === 'fraud') {
+        return <div className="flex justify-center items-center h-screen">
+            <h1 className="text-4xl font-bold text-red-500">You are not allowed to access this page!</h1>
+        </div>
+    }
 
     const handleImageChange = (event) => {
         setPropertyImage(event.target.files[0]);

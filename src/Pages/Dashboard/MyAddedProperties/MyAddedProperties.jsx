@@ -8,6 +8,7 @@ const MyAddedProperties = () => {
     const { user } = useAuth();
     const axiosPublic = useAxiosPublic();
 
+
     const { data: properties = [], refetch } = useQuery({
         queryKey: ['properties'],
         queryFn: async () => {
@@ -15,6 +16,7 @@ const MyAddedProperties = () => {
             return res.data;
         }
     })
+
 
 
     const handleDelete = (id) => {
