@@ -18,6 +18,7 @@ import MyAddedProperties from "../Pages/Dashboard/MyAddedProperties/MyAddedPrope
 import MySoldProperties from "../Pages/Dashboard/MySoldProperties/MySoldProperties";
 import RequestedProperties from "../Pages/Dashboard/RequestedProperties/RequestedProperties";
 import UpdateProperty from "../Pages/Dashboard/UpdateProperty/UpdateProperty";
+import AdvertiseProperty from "../Pages/Dashboard/AdvertiseProperty/AdvertiseProperty";
 
 
 export const router = createBrowserRouter([
@@ -94,6 +95,10 @@ export const router = createBrowserRouter([
             {
                 path: 'updateProperty/:id',
                 element: <UpdateProperty></UpdateProperty>
+            },
+            {
+                path: 'advertiseProperty',
+                element: <AdvertiseProperty></AdvertiseProperty>
             }
         ]
     }
