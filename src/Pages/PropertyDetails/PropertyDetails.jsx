@@ -72,6 +72,10 @@ const PropertyDetails = () => {
             maxPrice: property.maxPrice,
             reviewerImageUrl: user.photoURL,
             verificationStatus: property.verificationStatus,
+            agentEmail: property.agentEmail,
+            agentName: property.agentName,
+            agentImageUrl: property.agentImageUrl,
+            reviewTime: new Date().toISOString() 
         }
         axiosPublic.post(`/reviews`, reviewInfo)
             .then(response => {
