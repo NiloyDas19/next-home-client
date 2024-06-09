@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import useAxiosPublic from './../../../hooks/useAxiosPublic';
 import { useQuery } from '@tanstack/react-query';
+import swal from 'sweetalert';
 
 const AdvertiseProperty = () => {
     const axiosPublic = useAxiosPublic();
@@ -21,16 +22,30 @@ const AdvertiseProperty = () => {
         </div>
     }
 
-    const handleAdvertise = (propertyId) => {
-        // axios.post(`/api/properties/${propertyId}/advertise`)
-        //     .then(response => {
-        //         setProperties(properties.map(property =>
-        //             property._id === propertyId ? { ...property, advertised: true } : property
-        //         ));
-        //     })
-        //     .catch(error => {
-        //         console.error('Error advertising property:', error);
-        //     });
+    const handleAdvertise = (propertyID) => {
+        const  property = {
+            isAdvertised : true,
+        }
+        axiosPublic.put(`/advertise/${propertyID}`, property)
+            .then(response => {
+                console.log(response);
+                swal({
+                    icon: "success",
+                    title: "Advertise Successful!",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            })
+            .catch(error => {
+                console.error('Error advertising property:', error);
+                swal({
+                    icon: "success",
+                    title: "Already Advertised!",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            });
+            refetch();
     };
 
     return (
@@ -54,10 +69,10 @@ const AdvertiseProperty = () => {
                                     <img src={property.propertyImageUrl} alt={property.propertyTitle} className="w-20 h-20 object-cover" />
                                 </td>
                                 <td className="py-3 px-6 text-left">{property.propertyTitle}</td>
-                                <td className="py-3 px-6 text-left">{`${property.minPrice} - ${property.maxPrice}`}</td>
+                                <td className="py-3 px-6 text-left">${property.minPrice} - ${property.maxPrice}</td>
                                 <td className="py-3 px-6 text-left">{property.agentName}</td>
                                 <td className="py-3 px-6 text-center">
-                                    {!property.advertised ? (
+                                    {!property.isAdvertised ? (
                                         <button
                                             onClick={() => handleAdvertise(property._id)}
                                             className="bg-blue-500 text-white px-3 py-1 rounded"

@@ -75,6 +75,7 @@ const AddProperty = () => {
                 agentEmail: user.email,
                 minPrice,
                 maxPrice,
+                agentImageUrl: user.photoURL,
                 verificationStatus
             };
 
