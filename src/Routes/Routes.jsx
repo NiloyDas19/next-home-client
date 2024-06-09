@@ -21,6 +21,7 @@ import UpdateProperty from "../Pages/Dashboard/UpdateProperty/UpdateProperty";
 import AdvertiseProperty from "../Pages/Dashboard/AdvertiseProperty/AdvertiseProperty";
 import PropertyDetails from "../Pages/PropertyDetails/PropertyDetails";
 import MakeOffer from "../Pages/Dashboard/MakeOffer/MakeOffer";
+import Payment from "../Pages/Dashboard/Payment/Payment";
 
 
 export const router = createBrowserRouter([
@@ -109,6 +110,10 @@ export const router = createBrowserRouter([
             {
                 path: 'makeOffer/:id',
                 element: <MakeOffer></MakeOffer>
+            },
+            {
+                path:'payment/:id',
+                element: <Payment></Payment>
             }
         ]
     }

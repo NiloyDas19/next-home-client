@@ -2,11 +2,12 @@ import { useState } from 'react';
 import useAxiosPublic from '../../../hooks/useAxiosPublic';
 import useAuth from '../../../hooks/useAuth';
 import { useQuery } from '@tanstack/react-query';
+import { Link } from 'react-router-dom';
 
 const PropertyBought = () => {
     const axiosPublic = useAxiosPublic();
     const [loading, setLoading] = useState(null);
-    const {user} = useAuth()
+    const { user } = useAuth()
 
 
     const { data: offerList = [], refetch } = useQuery({
@@ -27,14 +28,6 @@ const PropertyBought = () => {
 
 
 
-    const handlePayment = (property) => {
-        // Redirect to the payment page with the property details
-        // history.push({
-        //   pathname: '/payment',
-        //   state: { property }
-        // });
-    };
-
     return (
         <div className="max-w-6xl mx-auto mt-10">
             <h2 className="text-2xl font-bold mb-6">Properties Bought</h2>
@@ -48,12 +41,13 @@ const PropertyBought = () => {
                         <p className="text-gray-600 mt-2">Offered Amount: ${property.offeredAmount}</p>
                         <p className="text-gray-600 mt-2">Status: {property.status}</p>
                         {property.status === 'accepted' && (
-                            <button
-                                onClick={() => handlePayment(property)}
-                                className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                            >
-                                Pay
-                            </button>
+                            <Link to={`/dashboard/payment/${property._id}`}>
+                                <button
+                                    className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                                >
+                                    Pay
+                                </button>
+                            </Link>
                         )}
                         {property.status === 'bought' && (
                             <p className="mt-4 text-green-600">Transaction ID: {property.transactionId}</p>
