@@ -42,6 +42,9 @@ const PropertyDetails = () => {
             maxPrice: property.maxPrice,
             agentImageUrl: property.agentImageUrl,
             verificationStatus: property.verificationStatus,
+            buyerEmail: user.email,
+            buyerName: user.displayName,
+            buyerImageUrl: user.photoURL,
         };
 
         axiosPublic.post('/wishlist', propertyInfo)
