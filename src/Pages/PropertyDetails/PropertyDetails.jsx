@@ -7,6 +7,7 @@ import { useQuery } from '@tanstack/react-query';
 import swal from 'sweetalert';
 import Modal from './Modal';
 import useAxiosSecure from './../../hooks/useAxiosSecure';
+import { Helmet } from 'react-helmet-async';
 
 const PropertyDetails = () => {
     const { id } = useParams();
@@ -102,6 +103,9 @@ const PropertyDetails = () => {
 
     return (
         <div className="container mx-auto p-6">
+            <Helmet>
+                <title>NextHome | Property Details</title>
+            </Helmet>
             <div className="bg-white shadow-md rounded-md overflow-hidden">
                 <img src={property.propertyImageUrl} alt={property.propertyTitle} className="w-full h-64 object-cover" />
                 <div className="p-4">

@@ -11,6 +11,7 @@ import useAxiosPublic from './../hooks/useAxiosPublic';
 import useAuth from "../hooks/useAuth";
 import { IoAddCircle, IoPersonCircle } from "react-icons/io5";
 import { MdSell } from "react-icons/md";
+import { Helmet } from "react-helmet-async";
 
 const Dashboard = () => {
 
@@ -39,6 +40,9 @@ const Dashboard = () => {
 
     return (
         <div>
+            <Helmet>
+                <title>NextHome | Dashboard</title>
+            </Helmet>
             <NavBar></NavBar>
             <div id="dashboard" className="flex gap-2 md:gap-5 flex-col md:flex-row">
                 {/* Dashboard Sidebar */}

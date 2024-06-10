@@ -5,6 +5,7 @@ import { useState } from "react";
 import useAuth from "../../hooks/useAuth";
 import swal from "sweetalert";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
+import { Helmet } from "react-helmet-async";
 
 const Login = () => {
     const [showPassword, setShowPassword] = useState(false);
@@ -57,7 +58,7 @@ const Login = () => {
                                 console.log(res);
                                 swal({
                                     icon: "success",
-                                    title: "Registration Successful!",
+                                    title: "Login Successful!",
                                     showConfirmButton: false,
                                     timer: 1500
                                 });
@@ -81,6 +82,9 @@ const Login = () => {
 
     return (
         <div className="min-h-screen justify-center py-12 sm:px-6 lg:px-8">
+            <Helmet>
+                <title>NextHome | Login</title>
+            </Helmet>
             <div className="sm:mx-auto sm:w-full sm:max-w-md">
                 <h2 className="mt-6 text-center text-5xl font-extrabold text-gray-900">Login</h2>
             </div>
