@@ -6,12 +6,14 @@ import useAxiosPublic from '../../hooks/useAxiosPublic';
 import { useQuery } from '@tanstack/react-query';
 import swal from 'sweetalert';
 import Modal from './Modal';
+import useAxiosSecure from './../../hooks/useAxiosSecure';
 
 const PropertyDetails = () => {
     const { id } = useParams();
     const { user } = useAuth(); 
     const [showModal, setShowModal] = useState(false);
     const axiosPublic = useAxiosPublic();
+    const axiosSecure = useAxiosSecure();
 
     const { data: property = [], refetch } = useQuery({
         queryKey: ['property'],
@@ -47,7 +49,7 @@ const PropertyDetails = () => {
             buyerImageUrl: user.photoURL,
         };
 
-        axiosPublic.post('/wishlist', propertyInfo)
+        axiosSecure.post('/wishlist', propertyInfo)
             .then(response => {
                 swal({
                     icon: "success",
@@ -80,7 +82,7 @@ const PropertyDetails = () => {
             agentImageUrl: property.agentImageUrl,
             reviewTime: new Date().toISOString() 
         }
-        axiosPublic.post(`/reviews`, reviewInfo)
+        axiosSecure.post(`/reviews`, reviewInfo)
             .then(response => {
                 swal({
                     icon: "success",

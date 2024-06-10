@@ -4,18 +4,20 @@ import { useQuery } from '@tanstack/react-query';
 import useAxiosPublic from '../../../hooks/useAxiosPublic';
 import swal from 'sweetalert';
 import { Link } from 'react-router-dom';
+import useAxiosSecure from './../../../hooks/useAxiosSecure';
 
 const WishList = () => {
     const { user } = useAuth();
     const axiosPublic = useAxiosPublic();
     const [loading, setLoading] = useState(null);
+    const axiosSecure = useAxiosSecure();
 
 
 
     const { data: userWishList = [], refetch } = useQuery({
         queryKey: ['userWishList'],
         queryFn: async () => {
-            const res = await axiosPublic.get(`/userWishList/${user.email}`);
+            const res = await axiosSecure.get(`/userWishList/${user.email}`);
             setLoading(res.data);
             return res.data;
         }
@@ -29,7 +31,7 @@ const WishList = () => {
     }
 
     const handleRemove = (propertyId) => {
-        axiosPublic.delete(`/wishList/${propertyId}`)
+        axiosSecure.delete(`/wishList/${propertyId}`)
             .then(response => {
                 swal({
                     icon: "success",

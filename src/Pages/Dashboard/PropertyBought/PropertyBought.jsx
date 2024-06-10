@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 const PropertyBought = () => {
     const axiosPublic = useAxiosPublic();
     const [loading, setLoading] = useState(null);
-    const { user } = useAuth()
+    const { user } = useAuth();
 
 
     const { data: offerList = [], refetch } = useQuery({
