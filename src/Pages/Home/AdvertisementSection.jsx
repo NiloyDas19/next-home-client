@@ -13,7 +13,7 @@ const AdvertisementSection = () => {
     const { data: advertisedProperties = [], refetch } = useQuery({
         queryKey: ['advertisedProperties'],
         queryFn: async () => {
-            const res = await axiosSecure.get('/advertisedProperties');
+            const res = await axiosPublic.get('/advertisedProperties');
             setLoading(res.data);
             return res.data;
         }
