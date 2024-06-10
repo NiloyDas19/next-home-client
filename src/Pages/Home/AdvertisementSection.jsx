@@ -20,13 +20,16 @@ const AdvertisementSection = () => {
     if (!loading) {
         refetch();
         return <div className="flex justify-center items-center h-screen">
-            <h1 className="text-4xl font-bold text-red-500">Loading...</h1>
+            <progress className="progress w-56"></progress>
         </div>
     }
 
     return (
-        <div className="container mx-auto py-10">
-            <h1 className="text-3xl font-bold text-center mb-10">Advertisement Section</h1>
+        <div className="container mx-auto py-10 space-y-5">
+            <div className='space-y-3'>
+                <h1 className="text-2xl md:text-5xl font-bold text-center">Advertisement Section</h1>
+                <p className='text-center'>The Advertisement Section showcases top real estate listings, highlighting the best properties for potential buyers. Featuring stunning visuals and key details, this section is designed to attract attention and provide quick access to essential information. Explore a curated selection of homes, commercial spaces, and luxury apartments, all verified by our team to ensure quality and reliability. Click on the details to learn more and take the next step towards finding your perfect investment.</p>
+            </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 {advertisedProperties.slice(0, 4).map(property => (
                     <div key={property._id} className="bg-white shadow-md rounded-md overflow-hidden">
