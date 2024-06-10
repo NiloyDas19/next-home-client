@@ -1,3 +1,4 @@
+import { Helmet } from "react-helmet";
 import AdvertisementSection from "./AdvertisementSection";
 import Banner from "./Banner";
 import FAQ from "./FAQ";
@@ -7,6 +8,9 @@ import Stat from "./Stat";
 const Home = () => {
     return (
         <div>
+            <Helmet>
+                <title>NextHome | Home</title>
+            </Helmet>
             <Banner></Banner>
             <AdvertisementSection></AdvertisementSection>
             <LatestReviews></LatestReviews>

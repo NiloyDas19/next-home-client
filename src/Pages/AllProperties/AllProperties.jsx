@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import useAxiosPublic from '../../hooks/useAxiosPublic';
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
+import { Helmet } from 'react-helmet';
 
 const AllProperties = () => {
     const axiosPublic = useAxiosPublic();
@@ -20,14 +21,20 @@ const AllProperties = () => {
     if (!loading) {
         refetch();
         return <div className="flex justify-center items-center h-screen">
-            <h1 className="text-4xl font-bold text-red-500">Loading...</h1>
+            <span className="loading loading-spinner loading-lg"></span>
         </div>
     }
-    
+
 
     return (
         <div className="container mx-auto py-10">
-            <h1 className="text-3xl font-bold text-center mb-10">All Properties</h1>
+            <Helmet>
+                <title>NextHome | All Properties</title>
+            </Helmet>
+            <div className='text-center space-y-5 mb-5'>
+                <h1 className="text-2xl md:text-4xl font-bold text-center">All Properties</h1>
+                <p>Welcome to the All Properties page! Here, you'll find a complete listing of all the properties that have been verified by our dedicated team. Whether you're looking for a new home, an investment opportunity, or simply browsing, this page provides all the information you need to explore the diverse range of properties available on our platform.</p>
+            </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 {verifiedProperties.map(property => (
                     <div key={property._id} className="bg-white shadow-md rounded-md overflow-hidden">
@@ -46,7 +53,7 @@ const AllProperties = () => {
                                 {property.verificationStatus}
                             </p>
                             <p className="mt-2">Price Range: ${property.minPrice} - ${property.maxPrice}</p>
-                            <Link to={`/propertyDetails/${property._id}`} className="block mt-4 text-center bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600">
+                            <Link to={`/propertyDetails/${property._id}`} className="block mt-4 text-center bg-orange-500 text-white py-2 rounded-md hover:bg-blue-600">
                                 Details
                             </Link>
                         </div>

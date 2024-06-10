@@ -22,12 +22,14 @@ import AdvertiseProperty from "../Pages/Dashboard/AdvertiseProperty/AdvertisePro
 import PropertyDetails from "../Pages/PropertyDetails/PropertyDetails";
 import MakeOffer from "../Pages/Dashboard/MakeOffer/MakeOffer";
 import Payment from "../Pages/Dashboard/Payment/Payment";
+import ErrorPage from "../Pages/ErroPage/ErrorPage";
 
 
 export const router = createBrowserRouter([
     {
         path: "/",
         element: <Main></Main>,
+        errorElement: <ErrorPage></ErrorPage>,
         children: [
             {
                 path: "/",
@@ -54,6 +56,7 @@ export const router = createBrowserRouter([
     {
         path:"dashboard",
         element: <PrivateRoute><Dashboard></Dashboard></PrivateRoute>,
+        errorElement: <ErrorPage></ErrorPage>,
         children:[
             {
                 path:"myProfile",

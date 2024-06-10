@@ -20,7 +20,7 @@ const AdvertisementSection = () => {
     if (!loading) {
         refetch();
         return <div className="flex justify-center items-center h-screen">
-            <progress className="progress w-56"></progress>
+            <span className="loading loading-spinner loading-lg"></span>
         </div>
     }
 
