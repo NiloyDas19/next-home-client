@@ -45,7 +45,7 @@ export const router = createBrowserRouter([
             },
             {
                 path: "/allProperties",
-                element: <AllProperties></AllProperties>
+                element: <PrivateRoute><AllProperties></AllProperties></PrivateRoute>
             },
             {
                 path: '/propertyDetails/:id',
