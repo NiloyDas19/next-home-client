@@ -41,7 +41,7 @@ const AdvertisementSection = () => {
                                 {property.verificationStatus}
                             </p>
                             <p className="mt-2">Price Range: ${property.minPrice} - ${property.maxPrice}</p>
-                            <Link to={`/propertyDetails/${property._id}`} className="block mt-4 text-center bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600">
+                            <Link to={`/propertyDetails/${property._id}`} className="block mt-4 text-center bg-orange-500 text-white py-2 rounded-md hover:bg-blue-600">
                                 Details
                             </Link>
                         </div>
