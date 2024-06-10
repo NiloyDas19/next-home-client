@@ -3,9 +3,11 @@ import axios from 'axios';
 import useAxiosPublic from '../../../hooks/useAxiosPublic';
 import { useQuery } from '@tanstack/react-query';
 import swal from 'sweetalert';
+import useAxiosSecure from './../../../hooks/useAxiosSecure';
 
 const ManageReviews = () => {
     const axiosPublic = useAxiosPublic();
+    const axiosSecure = useAxiosSecure();
     const [loading, setLoading] = useState(null);
 
     const { data: reviews = [], refetch } = useQuery({
@@ -25,7 +27,7 @@ const ManageReviews = () => {
     const handleDelete = (reviewId) => {
         console.log(reviewId);
         // Delete the review
-        axiosPublic.delete(`/deleteReviews/${reviewId}`)
+        axiosSecure.delete(`/deleteReviews/${reviewId}`)
             .then(response => {
                 console.log(response);
                 swal({

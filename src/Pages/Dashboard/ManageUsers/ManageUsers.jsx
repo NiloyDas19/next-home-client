@@ -11,14 +11,14 @@ const ManageUsers = () => {
     const { data: users = [], refetch } = useQuery({
         queryKey: ['users'],
         queryFn: async () => {
-            const res = await axiosSecure.get('/users');
+            const res = await axiosPublic.get('/users');
             return res.data;
         }
     })
 
     const handleMakeAdmin = async(userId) => {
         const updateUser = { role: 'admin' };
-        const res = await axiosPublic.put(`/userRole/${userId}`, updateUser);
+        const res = await axiosSecure.put(`/userRole/${userId}`, updateUser);
         console.log(res);
         refetch();
     };
@@ -33,21 +33,21 @@ const ManageUsers = () => {
             return;
         }
         const updateUser = { role: 'agent' };
-        const res = await axiosPublic.put(`/userRole/${userId}`, updateUser);
+        const res = await axiosSecure.put(`/userRole/${userId}`, updateUser);
         console.log(res);
         refetch();
     };
 
     const handleMarkAsFraud = async(userId) => {
         const updateUser = { role: 'fraud' };
-        const res = await axiosPublic.put(`/userRole/${userId}`, updateUser);
+        const res = await axiosSecure.put(`/userRole/${userId}`, updateUser);
         console.log(res);
         refetch();
 
     };
 
     // TODO: delete user and update their properties
-    const handleDeleteUser = (userRole,userId) => {
+    const handleDeleteUser = async(userRole,userId) => {
         if(userRole === 'admin'){
             swal({
                 title: 'Admin',
@@ -56,8 +56,16 @@ const ManageUsers = () => {
             });
             return;
         }
-
-
+        const res = await axiosSecure.delete(`/deleteUser/${userId}`);
+        // console.log(res.data);
+        if(res.data.deletedCount){
+            swal({
+                title: 'User Deleted',
+                text: 'User has been deleted successfully',
+                icon:'success'
+            });
+            refetch();
+        }
     };
 
     return (

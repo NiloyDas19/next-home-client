@@ -2,9 +2,11 @@ import { useState } from 'react';
 import useAxiosPublic from './../../../hooks/useAxiosPublic';
 import { useQuery } from '@tanstack/react-query';
 import swal from 'sweetalert';
+import useAxiosSecure from './../../../hooks/useAxiosSecure';
 
 const AdvertiseProperty = () => {
     const axiosPublic = useAxiosPublic();
+    const axiosSecure = useAxiosSecure();
     const [loading, setLoading] = useState(null);
 
     const { data: verifiedProperties = [], refetch } = useQuery({
@@ -26,7 +28,7 @@ const AdvertiseProperty = () => {
         const  property = {
             isAdvertised : true,
         }
-        axiosPublic.put(`/advertise/${propertyID}`, property)
+        axiosSecure.put(`/advertise/${propertyID}`, property)
             .then(response => {
                 console.log(response);
                 swal({
