@@ -3,11 +3,11 @@
 Welcome to **NextHome**, your ultimate real estate platform!
 
 ## Admin Credentials
-- **Username**: admin@example.com
-- **Password**: adminpassword123
+- **Username**: jhon@gmail.com
+- **Password**: Asdfgh
 
 ## Live Site URL
-[NextHome Live](https://www.nexthome.com)
+[NextHome Live](https://rad-praline-ae3ea0.netlify.app)
 
 ## Features
 

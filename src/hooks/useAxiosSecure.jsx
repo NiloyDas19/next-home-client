@@ -4,7 +4,7 @@ import axios from "axios";
 // import { AuthContext } from "../Providers/AuthProvider";
 
 const axiosSecure = axios.create({
-    baseURL: 'http://localhost:5000',
+    baseURL: 'https://nexthome-server-side.vercel.app',
 })
 
 const useAxiosSecure = () => {
