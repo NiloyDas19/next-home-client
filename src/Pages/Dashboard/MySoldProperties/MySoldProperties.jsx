@@ -8,7 +8,7 @@ const MySoldProperties = () => {
     const { user } = useAuth();
     const [totalSoldAmount, setTotalSoldAmount] = useState(0);
 
-    const { data: soldProperties = [], isPending, refetch } = useQuery({
+    const { data: soldProperties = [], isLoading, refetch } = useQuery({
         queryKey: ['soldProperties'],
         queryFn: async () => {
             const res = await axiosPublic.get(`/soldProperties/${user.email}`);
@@ -18,7 +18,7 @@ const MySoldProperties = () => {
         }
     })
 
-    if (isPending) {
+    if (isLoading) {
         refetch();
         return <h2 className="font-bold text-3xl text-center mb-5">Loading...</h2>
     }

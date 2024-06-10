@@ -3,11 +3,13 @@ import useAxiosPublic from '../../../hooks/useAxiosPublic';
 import useAuth from '../../../hooks/useAuth';
 import { useQuery } from '@tanstack/react-query';
 import swal from 'sweetalert';
+import useAxiosSecure from './../../../hooks/useAxiosSecure';
 
 const RequestedProperties = () => {
     const axiosPublic = useAxiosPublic();
     const [loading, setLoading] = useState(null);
     const { user } = useAuth()
+    const axiosSecure = useAxiosSecure();
 
 
     const { data: agentOfferList = [], refetch } = useQuery({
@@ -31,9 +33,9 @@ const RequestedProperties = () => {
         const reject = {
             status: 'rejected',
         }
-        const resReject = await axiosPublic.put(`/rejectOffer/${propertyId}`, reject);
+        const resReject = await axiosSecure.put(`/rejectOffer/${propertyId}`, reject);
         console.log(resReject);
-        const resAccept = await axiosPublic.put(`/acceptOffer/${id}`, { status: 'accepted' })
+        const resAccept = await axiosSecure.put(`/acceptOffer/${id}`, { status: 'accepted' })
         console.log(resAccept);
         if (resAccept.data.modifiedCount) {
             swal({
@@ -46,7 +48,7 @@ const RequestedProperties = () => {
     };
 
     const handleReject = async (id) => {
-        const resReject = await axiosPublic.put(`/rejectOneOffer/${id}`, { status: 'rejected' });
+        const resReject = await axiosSecure.put(`/rejectOneOffer/${id}`, { status: 'rejected' });
         console.log(resReject);
         if (resReject.data.modifiedCount) {
             swal({

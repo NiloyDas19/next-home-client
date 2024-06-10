@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import useAuth from './../../../hooks/useAuth';
 import useAxiosPublic from './../../../hooks/useAxiosPublic';
+import useAxiosSecure from './../../../hooks/useAxiosSecure';
 import swal from 'sweetalert';
 
 const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
@@ -15,6 +16,7 @@ const AddProperty = () => {
     const [maxPrice, setMaxPrice] = useState('');
     const { user } = useAuth();
     const axiosPublic = useAxiosPublic();
+    const axiosSecure = useAxiosSecure();
     const verificationStatus = "pending";
 
 
@@ -81,7 +83,7 @@ const AddProperty = () => {
 
             console.log(propertyInfo);
 
-            axiosPublic.post('/properties', propertyInfo)
+            axiosSecure.post('/properties', propertyInfo)
                 .then(res => {
                     console.log(res);
                     swal({

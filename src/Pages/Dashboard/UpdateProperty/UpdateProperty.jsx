@@ -3,6 +3,7 @@ import useAuth from './../../../hooks/useAuth';
 import useAxiosPublic from './../../../hooks/useAxiosPublic';
 import swal from 'sweetalert';
 import { useNavigate, useParams } from 'react-router-dom';
+import useAxiosSecure from '../../../hooks/useAxiosSecure';
 
 const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
@@ -15,6 +16,7 @@ const UpdateProperty = () => {
     const [maxPrice, setMaxPrice] = useState('');
     const { user } = useAuth();
     const axiosPublic = useAxiosPublic();
+    const axiosSecure = useAxiosSecure();
     const navigate = useNavigate();
     const {id} = useParams();
 
@@ -75,12 +77,12 @@ const UpdateProperty = () => {
 
             console.log(propertyInfo);
 
-            axiosPublic.put(`/properties/${id}`, propertyInfo)
+            axiosSecure.put(`/properties/${id}`, propertyInfo)
                 .then(res => {
                     console.log(res);
                     swal({
                         icon: "success",
-                        title: "Property Added Successful!",
+                        title: "Property updated Successfully!",
                         showConfirmButton: false,
                         timer: 1500
                     });

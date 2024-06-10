@@ -3,10 +3,12 @@ import useAuth from '../../../hooks/useAuth';
 import useAxiosPublic from '../../../hooks/useAxiosPublic';
 import swal from 'sweetalert';
 import { useQuery } from '@tanstack/react-query';
+import useAxiosSecure from './../../../hooks/useAxiosSecure';
 
 const MyAddedProperties = () => {
     const { user } = useAuth();
     const axiosPublic = useAxiosPublic();
+    const axiosSecure = useAxiosSecure();
 
 
     const { data: properties = [], refetch } = useQuery({
@@ -29,7 +31,7 @@ const MyAddedProperties = () => {
         })
             .then((willDelete) => {
                 if (willDelete) {
-                    axiosPublic.delete(`/properties/${id}`)
+                    axiosSecure.delete(`/properties/${id}`)
                         .then(res => {
                             if (res.data.deletedCount > 0) {
                                 swal("Property deleted successfully", {
