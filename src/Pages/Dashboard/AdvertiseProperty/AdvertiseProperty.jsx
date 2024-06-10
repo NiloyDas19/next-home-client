@@ -49,7 +49,7 @@ const AdvertiseProperty = () => {
     };
 
     return (
-        <div className="w-[95%] mx-auto mt-10">
+        <div className="w-[95%] mx-auto">
             <h2 className="font-bold text-3xl text-center mb-5">Advertise Property</h2>
             <div className="overflow-x-auto">
                 <table className="min-w-full bg-white shadow-md rounded">

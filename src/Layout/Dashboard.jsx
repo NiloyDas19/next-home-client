@@ -40,9 +40,9 @@ const Dashboard = () => {
     return (
         <div>
             <NavBar></NavBar>
-            <div id="dashboard" className="flex gap-5 flex-col md:flex-row">
+            <div id="dashboard" className="flex gap-2 md:gap-5 flex-col md:flex-row">
                 {/* Dashboard Sidebar */}
-                <div className="md:w-64 min-h-screen w-[80%] mx-auto ">
+                <div className="md:w-64 md:min-h-screen w-[80%] mx-auto ">
                     <ul className="menu w-full p-2 space-y-2">
                         {
                             userRole === "user" ?
@@ -187,7 +187,7 @@ const Dashboard = () => {
                 </div>
 
                 {/* Dashboard Content */}
-                <div className="flex-1 p-8">
+                <div className="flex-1 p-2">
                     <Outlet></Outlet>
                 </div>
             </div>
