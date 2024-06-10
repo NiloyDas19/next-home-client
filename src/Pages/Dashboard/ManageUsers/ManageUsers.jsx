@@ -1,3 +1,4 @@
+import swal from 'sweetalert';
 import useAxiosPublic from '../../../hooks/useAxiosPublic';
 import { useQuery } from '@tanstack/react-query';
 
@@ -20,7 +21,15 @@ const ManageUsers = () => {
         refetch();
     };
 
-    const handleMakeAgent = async(userId) => {
+    const handleMakeAgent = async(userRole,userId) => {
+        if(userRole === 'admin'){
+            swal({
+                title: 'Agent',
+                icon: 'error',
+                text: 'You can not make an admin to an agent'
+            });
+            return;
+        }
         const updateUser = { role: 'agent' };
         const res = await axiosPublic.put(`/userRole/${userId}`, updateUser);
         console.log(res);
@@ -36,7 +45,15 @@ const ManageUsers = () => {
     };
 
     // TODO: delete user and update their properties
-    const handleDeleteUser = (userId) => {
+    const handleDeleteUser = (userRole,userId) => {
+        if(userRole === 'admin'){
+            swal({
+                title: 'Admin',
+                icon: 'error',
+                text: 'You can not delete an admin'
+            });
+            return;
+        }
 
     };
 
@@ -70,7 +87,7 @@ const ManageUsers = () => {
                                             )}
                                             {user.role !== 'agent' && (
                                                 <button
-                                                    onClick={() => handleMakeAgent(user._id)}
+                                                    onClick={() => handleMakeAgent(user.role,user._id)}
                                                     className="bg-green-500 text-white px-3 py-1 rounded"
                                                 >
                                                     Make Agent
@@ -92,7 +109,7 @@ const ManageUsers = () => {
                                         </span>
                                     )}
                                     <button
-                                        onClick={() => handleDeleteUser(user._id)}
+                                        onClick={() => handleDeleteUser(user.role,user._id)}
                                         className="bg-gray-500 text-white px-3 py-1 rounded"
                                     >
                                         Delete User
