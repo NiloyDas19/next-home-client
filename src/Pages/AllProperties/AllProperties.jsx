@@ -8,12 +8,16 @@ import { Helmet } from 'react-helmet';
 const AllProperties = () => {
     const axiosPublic = useAxiosPublic();
     const [loading, setLoading] = useState(null);
+    const [searchQuery, setSearchQuery] = useState('');
+    const [sortOrder, setSortOrder] = useState('asc');
+    const [properties, setProperties] = useState([]);
 
     const { data: verifiedProperties = [], refetch } = useQuery({
         queryKey: ['verifiedProperties'],
         queryFn: async () => {
             const res = await axiosPublic.get('/verifiedProperties');
             setLoading(res.data);
+            setProperties(res.data);
             return res.data;
         }
     })
@@ -25,18 +29,55 @@ const AllProperties = () => {
         </div>
     }
 
+    const handleSearch = (event) => {
+        setSearchQuery(event.target.value);
+        setProperties(filteredProperties);
+    };
+
+    const handleSort = (event) => {
+        setSortOrder(event.target.value);
+        setProperties(sortedProperties);
+    };
+
+    const filteredProperties = verifiedProperties.filter(property =>
+        property.propertyLocation.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
+    const sortedProperties = filteredProperties.sort((a, b) => {
+        const priceA = parseInt(a.minPrice, 10);
+        const priceB = parseInt(b.minPrice, 10);
+        return sortOrder === 'asc' ?  priceB - priceA : priceA - priceB;
+    });
+
 
     return (
         <div className="container mx-auto py-10">
             <Helmet>
                 <title>NextHome | All Properties</title>
             </Helmet>
+            <div className="flex flex-col md:flex-row justify-between mb-4 gap-2">
+                <input
+                    type="text"
+                    placeholder="Search by location"
+                    value={searchQuery}
+                    onChange={handleSearch}
+                    className="border p-2 rounded w-full flex-1"
+                />
+                <select
+                    value={sortOrder}
+                    onChange={handleSort}
+                    className="border p-2 rounded flex-1"
+                >
+                    <option value="asc">Sort by Price: Low to High</option>
+                    <option value="desc">Sort by Price: High to Low</option>
+                </select>
+            </div>
             <div className='text-center space-y-5 mb-5'>
                 <h1 className="text-2xl md:text-4xl font-bold text-center">All Properties</h1>
                 <p>Welcome to the All Properties page! Here, you'll find a complete listing of all the properties that have been verified by our dedicated team. Whether you're looking for a new home, an investment opportunity, or simply browsing, this page provides all the information you need to explore the diverse range of properties available on our platform.</p>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                {verifiedProperties.map(property => (
+                {properties.map(property => (
                     <div key={property._id} className="bg-white shadow-md rounded-md overflow-hidden">
                         <img src={property.propertyImageUrl} alt={property.propertyTitle} className="w-full h-48 object-cover" />
                         <div className="p-4">

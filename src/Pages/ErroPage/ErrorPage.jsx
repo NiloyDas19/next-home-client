@@ -1,9 +1,13 @@
 import { Link } from 'react-router-dom';
 import errorImage from '../../assets/erropage.gif';
+import { Helmet } from 'react-helmet';
 
 const ErrorPage = () => {
     return (
         <div className="flex items-center justify-center">
+            <Helmet>
+                <title>NextHome | Error Page</title>
+            </Helmet>
             <div className="bg-white p-8 rounded-lg shadow-lg text-center">
                 <img src={errorImage} alt="Error" className="w-full object-cover" />
                 <h1 className="text-4xl font-bold text-gray-800 mb-2">Oops!</h1>
