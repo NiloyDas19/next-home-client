@@ -4,6 +4,7 @@ import useAxiosPublic from '../../../hooks/useAxiosPublic';
 import { useQuery } from '@tanstack/react-query';
 import useAuth from '../../../hooks/useAuth';
 import swal from 'sweetalert';
+import useAxiosSecure from '../../../hooks/useAxiosSecure';
 
 const MakeOffer = () => {
     const { id } = useParams();
@@ -13,12 +14,13 @@ const MakeOffer = () => {
     const [loading, setLoading] = useState(null);
     const { user } = useAuth();
     const [buyingDate, setBuyingDate] = useState('');
+    const axiosSecure = useAxiosSecure();
 
 
     const { data: offeredProperty = [], refetch } = useQuery({
         queryKey: ['offeredProperty'],
         queryFn: async () => {
-            const res = await axiosPublic.get(`/wishList/${id}`);
+            const res = await axiosSecure.get(`/wishList/${id}`);
             setLoading(res.data);
             return res.data;
         }
