@@ -1,8 +1,10 @@
+import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import useAxiosPublic from './../../../hooks/useAxiosPublic';
 import { useQuery } from '@tanstack/react-query';
 
 const ManageProperties = () => {
     const axiosPublic = useAxiosPublic();
+    const axiosSecure = useAxiosSecure();
 
     const { data: allProperties = [], refetch } = useQuery({
         queryKey: ['allProperties'],
@@ -14,7 +16,7 @@ const ManageProperties = () => {
 
     const handleVerify = async(propertyId) => {
         const updateProperty = {verificationStatus : 'verified'};
-        const res = await axiosPublic.put(`/verifiedProperties/${propertyId}`, updateProperty);
+        const res = await axiosSecure.put(`/verifiedProperties/${propertyId}`, updateProperty);
         console.log(res);
         refetch();
     };
@@ -22,7 +24,7 @@ const ManageProperties = () => {
 
     const handleReject = async(propertyId) => {
         const updateProperty = {verificationStatus : 'rejected'};
-        const res = await axiosPublic.put(`/verifiedProperties/${propertyId}`, updateProperty);
+        const res = await axiosSecure.put(`/verifiedProperties/${propertyId}`, updateProperty);
         console.log(res);
         refetch();
     };

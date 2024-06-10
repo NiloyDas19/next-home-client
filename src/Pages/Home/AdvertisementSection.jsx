@@ -2,16 +2,18 @@ import { Link } from 'react-router-dom';
 import useAxiosPublic from '../../hooks/useAxiosPublic';
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
+import useAxiosSecure from './../../hooks/useAxiosSecure';
 
 const AdvertisementSection = () => {
 
     const axiosPublic = useAxiosPublic();
+    const axiosSecure = useAxiosSecure();
     const [loading, setLoading] = useState(null);
 
     const { data: advertisedProperties = [], refetch } = useQuery({
         queryKey: ['advertisedProperties'],
         queryFn: async () => {
-            const res = await axiosPublic.get('/advertisedProperties');
+            const res = await axiosSecure.get('/advertisedProperties');
             setLoading(res.data);
             return res.data;
         }
